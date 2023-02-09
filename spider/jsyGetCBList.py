@@ -45,11 +45,11 @@ cursor = db.cursor()
 
 for index, item in enumerate(driver.find_elements_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr")):
     # 序号
-    print(index + 1)
+    # print(index + 1)
     # 代码
     # print('代码', item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[3]/a[1]".format(index+1)).text)
     # 可转债名称
-    print('可转债名称', item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[4]/span[1]".format(index+1)).text)
+    # print('可转债名称', item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[4]/span[1]".format(index+1)).text)
     # 当日价格
     # print('当日价格', item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[5]/span[1]".format(index+1)).text)
     # 到期时间
@@ -58,12 +58,15 @@ for index, item in enumerate(driver.find_elements_by_xpath("//div[@class='jsl-ta
     name = item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[4]/span[1]".format(index+1)).text
     # price = item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[5]/span[1]".format(index+1)).text
     expire = item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[24]/span[1]".format(index+1)).text
+    sql = 'insert into cb_list(code, name, expire) values ({}, "{}", "{}")'.format(code, name, expire)
+    print(sql)
     try:
-        sql = 'insert into cb_list(code, name, expire) values ({}, "{}", "{}")'.format(code, name, expire)
         cursor.execute(sql)
         db.commit()
+        print('success')
     except:
         db.rollback()
+        print('fail')
 
 driver.quit()
 db.close()
