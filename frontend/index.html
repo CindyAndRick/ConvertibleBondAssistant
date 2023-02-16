@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Vue.js</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
+    </head>
+    <body>
+        <div id="app">
+            <ul>
+                <li v-for="item in items" :key="item.id">{{ item.name }}</li>
+            </ul>
+        </div>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    items: []
+                },
+                mounted() {
+                    axios
+                        .get('https://my-api.com/items')
+                        .then(response => {
+                            this.items = response.data;
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                },
+                method() {
+                    axios
+                        .get('https://my-api.com/items')
+                        .then(response => {
+                            this.items = response.data;
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            });
+        </script>
+    </body>
+</html>

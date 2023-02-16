@@ -38,11 +38,11 @@ for index, item in enumerate(driver.find_elements_by_xpath("//div[@class='jsl-ta
     code = item.find_element_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr[{}]/td[3]/a[1]".format(index+1)).text
     codelist.append(code)
 
-# print(codelist)
+# print(codelist, len(codelist))
 
 url = 'https://www.jisilu.cn/data/convert_bond_detail/'
 
-db = pymysql.connect(host=args.db_host, user=args.db_username, password=args.db_password, database=args.db_name)
+db = pymysql.connect(host=args.db_host, port=args.db_port, user=args.db_username, password=args.db_password, database=args.db_name)
 cursor = db.cursor()
 
 for code in codelist:
@@ -58,12 +58,14 @@ for code in codelist:
             sql = 'insert into jsy_data(code, price, date) values ({}, {}, "{}")'.format(code, price, date)
             cursor.execute(sql)
             db.commit()
-            print(code, index + 1, 'success', date, price)
+            print(code, index + 1, 'success')
         except Exception as e:
             print(code, index + 1, 'failed', sql)
+            print(e)
             db.rollback()
-            driver.quit()
-            exit()
+            # driver.quit()
+            # exit()
     # break
-
+print('finished')
+db.close()
 driver.quit()

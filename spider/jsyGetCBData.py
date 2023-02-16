@@ -46,7 +46,7 @@ sleep(3)
 #         f.write(driver.page_source)
 #         f.close()
 
-db = pymysql.connect(host=args.db_host, user=args.db_username, password=args.db_password, database=args.db_name)
+db = pymysql.connect(host=args.db_host, port=args.db_port, user=args.db_username, password=args.db_password, database=args.db_name)
 cursor = db.cursor()
 
 date = str(datetime.now()).split(' ')[0]

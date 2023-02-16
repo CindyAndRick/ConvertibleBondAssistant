@@ -40,7 +40,7 @@ sleep(3)
 #         f.write(driver.page_source)
 #         f.close()
 
-db = pymysql.connect(host=args.db_host, user=args.db_username, password=args.db_password, database=args.db_name)
+db = pymysql.connect(host=args.db_host, port=args.db_port, user=args.db_username, password=args.db_password, database=args.db_name)
 cursor = db.cursor()
 
 for index, item in enumerate(driver.find_elements_by_xpath("//div[@class='jsl-table-body-wrapper']/table[@class='jsl-table-body']/tbody/tr")):
@@ -64,9 +64,9 @@ for index, item in enumerate(driver.find_elements_by_xpath("//div[@class='jsl-ta
         cursor.execute(sql)
         db.commit()
         print('success')
-    except:
+    except Exception as e:
         db.rollback()
-        print('fail')
+        print('fail', e)
 
 driver.quit()
 db.close()

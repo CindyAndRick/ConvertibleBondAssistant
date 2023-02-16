@@ -4,7 +4,7 @@ from args import parser
 
 args = parser.parse_args()
 
-db = pymysql.connect(host=args.db_host, user=args.db_username, password=args.db_password, database=args.db_name)
+db = pymysql.connect(host=args.db_host, port=args.db_port, user=args.db_username, password=args.db_password, database=args.db_name)
 
 cursor = db.cursor()
 
@@ -39,7 +39,7 @@ for code_item in code_list:
             break
 
     sql3 = "SELECT name, expire FROM cb_list WHERE code={}".format(code_item[0])
-    print(sql3)
+    # print(sql3)
     num = cursor.execute(sql3)
     # print(num)
     name, expire = cursor.fetchone()

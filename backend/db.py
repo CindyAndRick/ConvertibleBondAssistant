@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -49,3 +50,15 @@ class inc_data(db.Model):
 
     def __repr__(self):
         return '<inc_data %r %r>' % (self.code, self.name)
+
+class follow(db.Model):
+    __tablename__ = 'follow'
+    code = db.Column(db.Integer, primary_key=True)
+    add_date = db.Column(db.Date)
+
+    def __init__(self, code):
+        self.code = code
+        self.add_date = date.today()
+
+    def __repr__(self):
+        return '<follow %r>' % self.code
